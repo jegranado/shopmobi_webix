@@ -23,6 +23,10 @@
 </head>
 <body>
 	<script type="text/javascript">
+        function img(obj){
+            return '<img src="'+obj.src+'" class="content" ondragstart="return false"/>'
+	    }
+        
         webix.ui({            
             rows: [
                 { 
@@ -33,13 +37,31 @@
                     gravity : -1,
                 }, //1st row
                 { 
-                cols:[
-                    { template:"Column 1" },//1st column
-                    { template:"Column 2" } //2nd column
-                ]
+                    rows:[
+                        {
+                                view:"carousel",
+                                id:"carousel",
+                                height:250, 
+                                cols:[
+                                    { css: "image", template:img, data:{src:"img/car_1.jpg"} },
+                                    { css: "image", template:img, data:{src:"img/car_2.jpg"} },
+                                    { css: "image", template:img, data:{src:"img/car_3.jpg"} }
+                                ]
+                        },
+                        {
+                        cols:[
+                            { template:"Column 1" },//1st column
+                            { template:"Column 2" } //2nd column
+                        ]},
+                        {cols:[
+                            { template:"Column 1" },//1st column
+                            { template:"Column 2" } //2nd column
+                        ]
+                    }]
                 }  //2nd row
             ]
-        });
+        });        
+    
     </script>
 </body>
 </html>
