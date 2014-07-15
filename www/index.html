@@ -46,7 +46,11 @@
                                     { css: "image", template:img, data:{src:"img/car_1.jpg"} },
                                     { css: "image", template:img, data:{src:"img/car_2.jpg"} },
                                     { css: "image", template:img, data:{src:"img/car_3.jpg"} }
-                                ]
+                                ],
+                                navigation:{
+                                    type:"side",
+                                    buttons:false                                    
+                                }
                         },
                         {
                         cols:[
@@ -62,6 +66,19 @@
             ]
         });        
     
+        function rotateC(){
+            setTimeout(function(){                                   
+                                    if($$("carousel").getActiveIdIndex()==2){
+                                        $$("carousel").setActiveIndex(0);
+                                    }else{
+                                        $$("carousel").showNext();                                    
+                                    }
+                                    rotateC();
+                                 },5000);            
+        }
+        rotateC();
     </script>
+    
 </body>
+    
 </html>
