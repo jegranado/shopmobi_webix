@@ -22,11 +22,11 @@
 		webix.ui({ borderless:true,
             rows:[ { 
                     view:"toolbar", cols:[
-                        {view:"button", type:"icon", icon:"chevron-left", label:"Voltar", click:function(){window.location.href="index.html"}},
+                        {align:"left",view:"icon", type:"icon", icon:"chevron-left", label:"Voltar", click:function(){window.location.href="index.html"}},
                         {},
-                        { template:"<div align='center'><img src='img/minilogo.png'/></div>", borderless:true,align:"center"},
+                        {view:"button",type:"image", image:"img/minilogo.png", borderless:true,align:"center"},
                         {},
-                        {view:"button", type:"icon", icon:"shopping-cart"}
+                        {}
                     ],
                     gravity : -1,
                 },
@@ -48,6 +48,7 @@
                     { name:"senhab", view:"text", type:"password", label:"Confirme a senha", labelPosition:"top"},
                     { name:"btnsubmit", view:"button", value:"Cadastrar" , type:"form", click:function(){
                                                                                                             if(this.getParentView().validate()){
+                                                                                                                intel.xdk.cache.setCookie("userid","jeff",30);
                                                                                                                 window.location.href="index.html";   
                                                                                                             }
                                                                                                         }}                

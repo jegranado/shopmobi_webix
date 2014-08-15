@@ -16,15 +16,20 @@
     <script src="webix/webix.js" type="text/javascript"></script>     
 	<script type="text/javascript">
 		/* Intel native bridge is available */
-		var onDeviceReady=function(){
+		
+        function verifyCookieLogin(){
+            var value = intel.xdk.cache.getCookie("userid"); 
+            //alert(value);
+            if(value){
+                window.location.href="principal.html";
+            }
+        }   
+        
+        var onDeviceReady=function(){
 		//hide splash screen
 		intel.xdk.device.hideSplashScreen();
             
-        var value = intel.xdk.cache.getCookie("userid"); 
-       // alert(value);
-        if(value){
-            window.location.href="principal.html";
-        }
+            verifyCookieLogin();
             
 		};
 		document.addEventListener("intel.xdk.device.ready",onDeviceReady,false);
@@ -43,7 +48,7 @@
             elements:[
                 { view:"text", placeholder:"e-mail"},
                 { view:"text", type:"password", placeholder:"senha"},
-                { view:"button", value:"Login" , type:"form" },
+                { view:"button", value:"Login" , type:"form", click: function(){verifyCookieLogin();} },
                 { view:"button", value:"Cadastre-se", click:function(){window.location.href="cadastro.html";} }                
                 ]
             }

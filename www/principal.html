@@ -4,80 +4,56 @@
 	<title>Your New Application</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
-	<style type="text/css">
-		/* Prevent copy paste for all elements except text fields */
-		*  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
-		input, textarea  { -webkit-user-select:text; }		
-	</style>
     <style type="text/css">
 		/* Prevent copy paste for all elements except text fields */
 		*  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
 		input, textarea  { -webkit-user-select:text; }
 		body { background-color:white; color:black }
 	</style>
-	<script src='intelxdk.js'></script>
-    <link rel="stylesheet" href="webix/webix.css" type="text/css"> 
-    <script src="webix/webix.js" type="text/javascript"></script> 	
+	<script src='intelxdk.js'></script>    
+    <script src="webix/webix.js" type="text/javascript"></script> 	    
+    <!--<link rel="stylesheet" href="webix/webix.css" type="text/css"> -->
+    <link rel="stylesheet" href="webix/skins/touch.css" type="text/css"> 
 </head>
 <body>
 	<script type="text/javascript">
-        function img(obj){
-            return '<img src="'+obj.src+'" class="content" ondragstart="return false"/>'
-	    }
+        var listestabelecimentos;
         
-        webix.ui({           
-            rows: [
-                { 
+        webix.ajax().sync().get("http://ec2-54-191-186-213.us-west-2.compute.amazonaws.com:8080/ws/getestabelecimentos.asp", function(text){            
+            listestabelecimentos=text;      
+        });     
+        
+        webix.Touch.limit(true);
+        webix.ui.fullScreen();
+		webix.ui({ borderless:true,
+            rows:[ { 
                     view:"toolbar", cols:[
+                        {align:"left",view:"icon", type:"icon", icon:"sign-out", label:"Voltar", click:function(){ 
+                                                                                                            intel.xdk.cache.removeCookie("userid");
+                                                                                                            window.location.href="index.html";}},
+                        {},
+                        {view:"button",type:"image", image:"img/minilogo.png", borderless:true,align:"center"},
                         {},
                         { id:"btncart", view:"button", type:"icon", icon:"shopping-cart", width:50, popup: "popcart" }
                     ],
                     gravity : -1,
-                }, //1st row
-                { 
-                    rows:[
-                        {
-                                view:"carousel",
-                                id:"carousel",
-                               // height:250, 
-                                cols:[
-                                    { css: "image", template:img, data:{src:"img/car_1.jpg"} },
-                                    { css: "image", template:img, data:{src:"img/car_2.jpg"} },
-                                    { css: "image", template:img, data:{src:"img/car_3.jpg"} }
-                                ],
-                                navigation:{
-                                    type:"side",
-                                    buttons:false                                    
+                },                  
+                    {view:"search", container:"mydiv"},                  
+                  {view:"scrollview",                
+                    scroll:"y",
+                    body:
+                    {       id:"listestabelecimentos", view:"list",
+                            select:"row",
+                            type:{height:70},                            
+                            template:"<table><tr><td><img width='50' height='50' src='#imgurl#'></td><td valign='top'><b>#estabelecimento#</b><br><i>#tipoestabelecimento#</i></td></tr></table>",                              
+                            data:[
+{	"id":"1",	"estabelecimento":"Big X Picanha",	"tipoestabelecimento":"Lanchonete",	"imgurl":"http://4.bp.blogspot.com/_NyvmafYn3ig/R1wtGUYwJEI/AAAAAAAAAXQ/l5Q5ylNoYDQ/s320/bigxpiacanha.jpg"}
+]
+                    }
                                 }
-                        },
-                        //{},
-                        {
-                        cols:[
-                            { view:"button", label:"1", height:100, click:function(){ intel.xdk.cache.setCookie("userid","jeff",30); } },//1st column
-                            { view:"button", label:"2", height:100, click:function(){ intel.xdk.cache.removeCookie("userid"); }  } //2nd column
-                        ]},
-                        {cols:[
-                            { view:"button", label:"3", height:100 },//1st column
-                            { view:"button", label:"4", height:100 } //2nd column
-                        ]
-                    }]
-                }  //2nd row
-            ]
-        });        
-    
-        function rotateC(){
-            setTimeout(function(){                                   
-                                    if($$("carousel").getActiveIdIndex()==2){
-                                        $$("carousel").setActiveIndex(0);
-                                    }else{
-                                        $$("carousel").showNext();                                    
-                                    }
-                                    rotateC();
-                                 },5000);            
-        }
-        rotateC();   
+            ]});
         
-       webix.ui({view:"popup",id:"popcart",body:
+           webix.ui({view:"popup",id:"popcart",body:
                                             {
                                                 view:"list", 
                                                 autoheight:true,                                                
@@ -98,7 +74,7 @@
                                                     ]
                                             }
         }).hide();
-        
+		
     </script>
     
 </body>
