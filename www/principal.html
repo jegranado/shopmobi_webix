@@ -13,15 +13,11 @@
 	<script src='intelxdk.js'></script>    
     <script src="webix/webix.js" type="text/javascript"></script> 	    
     <!--<link rel="stylesheet" href="webix/webix.css" type="text/css"> -->
-    <link rel="stylesheet" href="webix/skins/touch.css" type="text/css"> 
+    <link rel="stylesheet" href="webix/skins/touch.css" type="text/css">    
+    <script src="http://debug-software.intel.com/target/target-script-min.js#BbWe8Nh7C1eHXkkkUEKK-kCYYmHKwBnxea1mprDFpcE"></script>
 </head>
 <body>
 	<script type="text/javascript">
-        var listestabelecimentos;
-        
-        webix.ajax().sync().get("http://ec2-54-191-186-213.us-west-2.compute.amazonaws.com:8080/ws/getestabelecimentos.asp", function(text){            
-            listestabelecimentos=text;      
-        });     
         
         webix.Touch.limit(true);
         webix.ui.fullScreen();
@@ -45,13 +41,14 @@
                     {       id:"listestabelecimentos", view:"list",
                             select:"row",
                             type:{height:70},                            
-                            template:"<table><tr><td><img width='50' height='50' src='#imgurl#'></td><td valign='top'><b>#estabelecimento#</b><br><i>#tipoestabelecimento#</i></td></tr></table>",                              
-                            data:[
-{	"id":"1",	"estabelecimento":"Big X Picanha",	"tipoestabelecimento":"Lanchonete",	"imgurl":"http://4.bp.blogspot.com/_NyvmafYn3ig/R1wtGUYwJEI/AAAAAAAAAXQ/l5Q5ylNoYDQ/s320/bigxpiacanha.jpg"}
-]
+                            template:"<table><tr><td><img width='50' height='50' src='#imgurl#'></td><td valign='top'><b>#estabelecimento#</b><br><i>#tipoestabelecimento#</i></td></tr></table>",                                                   
+                            url:"http://ec2-54-191-186-213.us-west-2.compute.amazonaws.com:8080/ws/getestabelecimentos.asp",
+                            datatype: "json"
                     }
                                 }
             ]});
+        
+                   
         
            webix.ui({view:"popup",id:"popcart",body:
                                             {
