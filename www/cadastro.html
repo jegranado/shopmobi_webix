@@ -1,0 +1,82 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<head>
+	<title>Your New Application</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+    <style type="text/css">
+		/* Prevent copy paste for all elements except text fields */
+		*  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+		input, textarea  { -webkit-user-select:text; }
+		body { background-color:white; color:black }
+	</style>
+	<script src='intelxdk.js'></script>    
+    <script src="webix/webix.js" type="text/javascript"></script> 	    
+    <!--<link rel="stylesheet" href="webix/webix.css" type="text/css"> -->
+    <link rel="stylesheet" href="webix/skins/touch.css" type="text/css"> 
+</head>
+<body>
+	<script type="text/javascript">
+        webix.Touch.limit(true);
+        webix.ui.fullScreen();
+		webix.ui({ borderless:true,
+            rows:[ { 
+                    view:"toolbar", cols:[
+                        {view:"button", type:"icon", icon:"chevron-left", label:"Voltar", click:function(){window.location.href="index.html"}},
+                        {},
+                        { template:"<div align='center'><img src='img/minilogo.png'/></div>", borderless:true,align:"center"},
+                        {},
+                        {view:"button", type:"icon", icon:"shopping-cart"}
+                    ],
+                    gravity : -1,
+                },
+                  {view:"scrollview",                
+                    scroll:"y", //vertical scrolling
+                body:
+                {
+                view:"form",  borderless:true,
+                id:"log_form",           
+                elements:[
+                    { name:"nome", view:"text", label:"Nome", labelPosition:"top"},
+                    { name:"sobrenome", view:"text", label:"Sobrenome", labelPosition:"top"},
+                    { name:"dtnasc", view:"datepicker", label: 'Data de Nascimento', format:"%d/%M/%Y", labelPosition:"top"},
+                    { name:"cpf", view:"text", label:"CPF", labelPosition:"top"},
+                    { name:"cidade", view:"text", label:"Cidade", labelPosition:"top"},
+                    { name:"estado", view:"text", label:"Estado", labelPosition:"top"},
+                    { name:"email", view:"text", label:"Email", labelPosition:"top"},                
+                    { name:"senha", view:"text", type:"password", label:"Senha", labelPosition:"top"},
+                    { name:"senhab", view:"text", type:"password", label:"Confirme a senha", labelPosition:"top"},
+                    { name:"btnsubmit", view:"button", value:"Cadastrar" , type:"form", click:function(){
+                                                                                                            if(this.getParentView().validate()){
+                                                                                                                window.location.href="index.html";   
+                                                                                                            }
+                                                                                                        }}                
+                    ],
+                    rules:{
+                        "nome":webix.rules.isNotEmpty,
+                        "sobrenome":webix.rules.isNotEmpty,
+                        "dtnasc":webix.rules.isNotEmpty,
+                        "cpf":webix.rules.isNumber,
+                        "cidade":webix.rules.isNotEmpty,
+                        "estado":webix.rules.isNotEmpty,
+                        "email":webix.rules.isEmail,
+                        "senha":webix.rules.isNotEmpty,
+                        "senhab":webix.rules.isNotEmpty,
+                        $obj:function(data){                            
+                            if (data.senha != data.senhab){                                
+                                webix.message({type:"error",text:"As senhas estão diferentes"}); 
+                                return false;
+                            }
+                            return true;
+                        }
+                   }
+                }
+                   
+                } 
+            ]});	
+		
+    </script>
+    
+</body>
+    
+</html>
